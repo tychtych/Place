@@ -1,0 +1,13 @@
+.popup.popup_is-opened {
+  display: flex;
+}
+
+.popupEdit.popup_is-opened {
+  display: flex;
+}
+
+.popupImage.popup_is-opened {
+  display: flex;
+  
+
+}
