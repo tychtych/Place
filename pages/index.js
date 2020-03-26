@@ -1,5 +1,5 @@
 'use strict'
-
+//переменные 
 const container = document.querySelector('.root');
 const rootSection = container.querySelector('.places-list');
 const addButton = container.querySelector('.user-info__button');
@@ -19,6 +19,9 @@ const aboutInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
 const editNameErrorMessage = popUpEditWindow.querySelector('#error-edit-name');
 const editAboutErrorMessage = popUpEditWindow.querySelector('#error-edit-about');
 
+//функции
+
+//enables the button depending on the input in PopUpWindow
 function inputHandler() {
   const inputName = form.name;
   const inputLink = form.link;
@@ -64,25 +67,27 @@ function validateForm(form) {
   const inputs = Array.from(form);
   //iterate through every input from the array list 
   inputs.forEach((elem) => {
-    console.log(elem);
+    
     //if it's not a button, execute code
     if (elem.id !== submit.id) {
-      //declare const errorElement 
+      //find const errorElement 
       const errorElement = container.querySelector(`#error-${elem.id}`)
       //if the element doesn't pass validation, flag changes to false
       //how to identify the second argument?
       if (!checkInputValidity(elem, errorElement)) isValidForm = false;
     }
   });
-  // declare a button which is found on a form
+  // find a submit button by class which is found on a form
   const submitButton = form.querySelector('.popup__button');
   //use setSubmitButtonState to pass the arguments button and isValidForm to link to a button state
   setSubmitButtonState(submitButton, isValidForm);
 }
 
 function setEventListeners(popupElem) {
-  //declare a variable id of a popup
-  const form = document.forms[popupElem.id];
+  //find id of a popup 
+  const popupID = popupElem.id;
+  console.log(popupID);
+  const form = document.forms[popupID];
   //add event listener to the form, which reacts on the input, and validates form
   form.addEventListener('input', (event) => {
     validateForm(form);
@@ -106,9 +111,9 @@ assignCloseButton(popUpWindow);
 assignCloseButton(popUpEditWindow);
 assignCloseButton(popUpImageWindow);
 
-
+//adds a card with a name and a link
 function addCard(name, link) {
-  console.log(name);
+  
   //Спасибо за рекомендацию !
   // Можно лучше
   // Прочитайте на досуге вот про такие удобные вещи
@@ -130,7 +135,7 @@ function addCard(name, link) {
   rootSection.insertAdjacentHTML('beforeend', html);
 }
 
-console.log(initialCards);
+
 initialCards.forEach(({
   name,
   link
@@ -145,12 +150,6 @@ function deleteCard(event) {
   rootSection.removeChild(card);
 }
 
-
-container.addEventListener('click', function () {
-  if (event.target.classList.contains('place-card__image')) {
-    popUpImageWindow.classList.add('popup_is-opened');
-  }
-});
 
 function enlargeCard(event) {
   const imageStyle = event.target.getAttribute('style');
