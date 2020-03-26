@@ -6,12 +6,11 @@ const addButton = container.querySelector('.user-info__button');
 const popUpWindow = container.querySelector('.popup');
 const popUpButton = container.querySelector('.popup__button');
 const popUpEditWindow = container.querySelector('.popupEdit');
-const popUpEditButton = popUpEditWindow.querySelector('.popup__button');
 const popUpImageWindow = container.querySelector('.popupImage');
 const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
 const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
-const form_edit = document.forms.edit;
+const form_edit = document.forms.popupEdit;
 const userInforName = container.querySelector('.user-info__name');
 const userInfoJob = container.querySelector('.user-info__job');
 const inputName = form_edit.name;
@@ -20,7 +19,7 @@ const aboutInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
 const editNameErrorMessage = popUpEditWindow.querySelector('#error-edit-name');
 const editAboutErrorMessage = popUpEditWindow.querySelector('#error-edit-about');
 
-function inputHandler () {
+function inputHandler() {
   const inputName = form.name;
   const inputLink = form.link;
   if (inputName.value.length === 0 || inputLink.value.length === 0) {
@@ -30,56 +29,67 @@ function inputHandler () {
     popUpButton.removeAttribute('disabled');
     popUpButton.classList.remove('popup__button-disabled');
   }
-  
 }
 
-function setSubmitButtonState () {
-  const editName = form_edit.userName;
-  const editAbout = form_edit.about;
-  if (editName.value.length < 2 || editAbout.value.length > 30) {
-    popUpEditButton.setAttribute('disabled', false);
-    popUpEditButton.classList.add('popup__button-disabled');
+function setSubmitButtonState(button, isInputValid) {
+  if (!isInputValid) {
+    button.setAttribute('disabled', false);
+    button.classList.add('popup__button-disabled');
   } else {
-    popUpEditButton.removeAttribute('disabled');
-    popUpEditButton.classList.remove('popup__button-disabled');
+    button.removeAttribute('disabled', false);
+    button.classList.remove('popup__button-disabled');
   }
-
 }
 
+function checkInputValidity(input, error) {
+  if (!input.value) {
+    error.classList.remove('error-message__hidden');
+    error.textContent = 'Это обязательное поле';
+    return false;
+  } else if (input.value.length < 2 || input.value.length > 30) {
+    error.classList.remove('error-message__hidden');
+    error.textContent = 'Должно быть от 2 до 30 символов';
+    return false;
+  } else {
+    error.textContent = '';
+    error.classList.add('error-message__hidden');
+    return true;
+  }
+}
 
-
-function checkInputValidity (input, error) {
-    if (!input.value) {
-      error.classList.remove('error-message__hidden');
-       error.textContent = 'Это обязательное поле';
-    } else if (input.value.length < 2 || input.value.length > 30) {
-      error.classList.remove('error-message__hidden');
-      error.textContent= 'Должно быть от 2 до 30 символов';
-    } else {
-      error.textContent ='';
-      error.classList.add('error-message__hidden');
+function validateForm(form) {
+  //create a flag 
+  let isValidForm = true;
+  //make an input array from the edit form
+  const inputs = Array.from(form);
+  //iterate through every input from the array list 
+  inputs.forEach((elem) => {
+    console.log(elem);
+    //if it's not a button, execute code
+    if (elem.id !== submit.id) {
+      //declare const errorElement 
+      const errorElement = container.querySelector(`#error-${elem.id}`)
+      //if the element doesn't pass validation, flag changes to false
+      //how to identify the second argument?
+      if (!checkInputValidity(elem, errorElement)) isValidForm = false;
     }
-  }
-
-  
-function setEventListeners(popupElem) {
-
-popupElem.addEventListener('input', (event) => {
-  setSubmitButtonState();
-  checkInputValidity(event.target,  editNameErrorMessage);
-  
-})
-
-popupElem.addEventListener('input', (event) => {
-  setSubmitButtonState();
-  checkInputValidity(event.target, editAboutErrorMessage);
-  
-})
-
+  });
+  // declare a button which is found on a form
+  const submitButton = form.querySelector('.popup__button');
+  //use setSubmitButtonState to pass the arguments button and isValidForm to link to a button state
+  setSubmitButtonState(submitButton, isValidForm);
 }
 
-setEventListeners(editInput);
-setEventListeners(aboutInput);
+function setEventListeners(popupElem) {
+  //declare a variable id of a popup
+  const form = document.forms[popupElem.id];
+  //add event listener to the form, which reacts on the input, and validates form
+  form.addEventListener('input', (event) => {
+    validateForm(form);
+  })
+}
+
+setEventListeners(popUpEditWindow);
 
 
 function assignCloseButton(popUpBlock) {
@@ -97,9 +107,8 @@ assignCloseButton(popUpEditWindow);
 assignCloseButton(popUpImageWindow);
 
 
-
-
 function addCard(name, link) {
+  console.log(name);
   //Спасибо за рекомендацию !
   // Можно лучше
   // Прочитайте на досуге вот про такие удобные вещи
@@ -121,7 +130,11 @@ function addCard(name, link) {
   rootSection.insertAdjacentHTML('beforeend', html);
 }
 
-initialCards.forEach(({ name, link }) => addCard(name, link));
+console.log(initialCards);
+initialCards.forEach(({
+  name,
+  link
+}) => addCard(name, link));
 // action - like card
 function likeCard(event) {
   event.target.classList.toggle('place-card__like-icon_liked');
@@ -133,7 +146,7 @@ function deleteCard(event) {
 }
 
 
- container.addEventListener('click', function() {
+container.addEventListener('click', function () {
   if (event.target.classList.contains('place-card__image')) {
     popUpImageWindow.classList.add('popup_is-opened');
   }
@@ -141,8 +154,8 @@ function deleteCard(event) {
 
 function enlargeCard(event) {
   const imageStyle = event.target.getAttribute('style');
-    popUpImageContent.setAttribute('style', imageStyle);
-    popUpImageWindow.classList.add('popup_is-opened');
+  popUpImageContent.setAttribute('style', imageStyle);
+  popUpImageWindow.classList.add('popup_is-opened');
 }
 
 // handles events on the card
@@ -158,7 +171,7 @@ function cardHandler(event) {
 
 rootSection.addEventListener('click', cardHandler);
 
-function editInfo (userName, about) {
+function editInfo(userName, about) {
   userInforName.textContent = userName.value;
   userInfoJob.textContent = about.value;
 }
@@ -171,12 +184,12 @@ function handlePopup() {
 }
 
 
-function handleEditPopup () {
-  popUpEditWindow.classList.toggle('popup_is-opened'); 
+function handleEditPopup() {
+  popUpEditWindow.classList.toggle('popup_is-opened');
 
   const currentName = userInforName.textContent;
   const currentJob = userInfoJob.textContent;
-  
+
   const nameInput = popUpEditWindow.querySelector('.popup__input_type_name');
   nameInput.value = currentName;
   const jobInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
@@ -191,13 +204,13 @@ addButton.addEventListener('click', handlePopup);
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  
+
 
   const {
     name,
     link
   } = form.elements;
-  
+
   addCard(name.value, link.value);
   form.reset();
   handlePopup();
@@ -207,16 +220,19 @@ form.addEventListener('submit', function (event) {
 
 form.addEventListener('input', inputHandler);
 
-form_edit.addEventListener('submit', function (event){
+form_edit.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const {userName, about} = form_edit.elements;
-  
+  const {
+    userName,
+    about
+  } = form_edit.elements;
+
   editInfo(userName, about);
 
   form_edit.reset();
-  handleEditPopup(); 
-  
+  handleEditPopup();
+
 })
 
 
