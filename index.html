@@ -41,22 +41,22 @@
       </div>
     </div>
     
-    <div class="popupEdit" >
+    <div id="popupEdit" class="popupEdit" >
       <div class="popup__content">
         <img src="./images/close.svg" alt="close edit" class="popup__close">
         <h3 class="popup__title">Редактировать профиль</h3>
 
-        <form class="popup__form" name="edit" novalidate>
+        <form class="popup__form" name="popupEdit" novalidate>
           <div class="input-container"> 
-            <input type="text" name="userName" class="popup__input popup__input_type_name" placeholder="Имя">
+            <input id="edit-name" type="text" name="userName" class="popup__input popup__input_type_name" placeholder="Имя">
             <span id="error-edit-name" class="error-message error-message__hidden"></span>
           </div>
 
           <div class="input-container"> 
-            <input type="text" name="about" class="popup__input popup__input_type_link-url" placeholder="О себе">
+            <input id="edit-about" type="text" name="about" class="popup__input popup__input_type_link-url" placeholder="О себе">
             <span id="error-edit-about" class="error-message error-message__hidden"></span>
           </div>
-            <button class="button popup__button"> Сохранить </button>
+            <button id="submit" class="button popup__button"> Сохранить </button>
         </form>
       </div>
     </div>
