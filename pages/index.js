@@ -1,5 +1,6 @@
 'use strict'
-//переменные 
+
+// переменные
 const container = document.querySelector('.root');
 const rootSection = container.querySelector('.places-list');
 const addButton = container.querySelector('.user-info__button');
@@ -10,19 +11,25 @@ const popUpImageWindow = container.querySelector('.popupImage');
 const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
 const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
+// Имя переменной в неверной нотации
+// Надо исправить
 const form_edit = document.forms.popupEdit;
 const userInforName = container.querySelector('.user-info__name');
 const userInfoJob = container.querySelector('.user-info__job');
+// Эти 5 переменных не используются
+// Не стоит ли их удалить
 const inputName = form_edit.name;
 const editInput = popUpEditWindow.querySelector('.popup__input_type_name');
 const aboutInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
 const editNameErrorMessage = popUpEditWindow.querySelector('#error-edit-name');
 const editAboutErrorMessage = popUpEditWindow.querySelector('#error-edit-about');
 
-//функции
+// функции
 
-//enables the button depending on the input in PopUpWindow
+// enables the button depending on the input in PopUpWindow
 function inputHandler() {
+  // Можно лучше -- деструктуризация
+  // const { name, link } = form;
   const inputName = form.name;
   const inputLink = form.link;
   if (inputName.value.length === 0 || inputLink.value.length === 0) {
@@ -45,14 +52,28 @@ function setSubmitButtonState(button, isInputValid) {
 }
 
 function checkInputValidity(input, error) {
+  // Можно лучше
+  // Текст ошибок лучше представить в виде объекта вида:
+  // const errorMessages = {
+  //   valueMissing: 'Это обязательное поле',
+  //   tooShort: 'Должно быть от 2 до 30 символов',
+  //   typeMismatch: 'Здесь должна быть ссылка'
+  // };
+  // Объект передаем в метод валидации и текст берем уже по ключу объекта
+  // Что это дает? Так мы отвязываемся от локали, можно объект на любом
+  // языке скинуть, таким образом можно легко осуществить локализацию.
   if (!input.value) {
     error.classList.remove('error-message__hidden');
     error.textContent = 'Это обязательное поле';
     return false;
+    // Надо исправить
+    // else после return не нужен, достаточно if
   } else if (input.value.length < 2 || input.value.length > 30) {
     error.classList.remove('error-message__hidden');
     error.textContent = 'Должно быть от 2 до 30 символов';
     return false;
+    // Надо исправить
+    // А здесь не нужен else
   } else {
     error.textContent = '';
     error.classList.add('error-message__hidden');
@@ -61,34 +82,42 @@ function checkInputValidity(input, error) {
 }
 
 function validateForm(form) {
-  //create a flag 
+  // create a flag
   let isValidForm = true;
-  //make an input array from the edit form
+  // make an input array from the edit form
+
+  // You need to fix it
+  // Ary you sure that there are only inputs will be inside the form? It's a hardcode.
+  // You need to collect ONLY inputs from form.
   const inputs = Array.from(form);
-  //iterate through every input from the array list 
+  // iterate through every input from the array list
   inputs.forEach((elem) => {
-    
-    //if it's not a button, execute code
+
+    // if it's not a button, execute code
+    // Надо исправить
+    // submit не определен
+    // Кроме того, эту проверку убеорите, ведь все равно мы в массив будем добавлять
+    // только инпуты а не все на свете
+    // для этого используйте someParentNode.getElementsByTagName()
     if (elem.id !== submit.id) {
-      //find const errorElement 
+      // find const errorElement
       const errorElement = container.querySelector(`#error-${elem.id}`)
-      //if the element doesn't pass validation, flag changes to false
-      //how to identify the second argument?
+      // if the element doesn't pass validation, flag changes to false
+      
       if (!checkInputValidity(elem, errorElement)) isValidForm = false;
     }
   });
   // find a submit button by class which is found on a form
   const submitButton = form.querySelector('.popup__button');
-  //use setSubmitButtonState to pass the arguments button and isValidForm to link to a button state
+  // use setSubmitButtonState to pass the arguments button and isValidForm to link to a button state
   setSubmitButtonState(submitButton, isValidForm);
 }
 
 function setEventListeners(popupElem) {
-  //find id of a popup 
+  // find id of a popup
   const popupID = popupElem.id;
-  console.log(popupID);
   const form = document.forms[popupID];
-  //add event listener to the form, which reacts on the input, and validates form
+  // add event listener to the form, which reacts on the input, and validates form
   form.addEventListener('input', (event) => {
     validateForm(form);
   })
@@ -98,6 +127,8 @@ setEventListeners(popUpEditWindow);
 
 
 function assignCloseButton(popUpBlock) {
+  // Надо исправить -- метод в методе определять не стоит
+  // еще см. комментарий в Review.md
   function handlePopup() {
     popUpBlock.classList.toggle('popup_is-opened');
   }
@@ -111,17 +142,8 @@ assignCloseButton(popUpWindow);
 assignCloseButton(popUpEditWindow);
 assignCloseButton(popUpImageWindow);
 
-//adds a card with a name and a link
+// adds a card with a name and a link
 function addCard(name, link) {
-  
-  //Спасибо за рекомендацию !
-  // Можно лучше
-  // Прочитайте на досуге вот про такие удобные вещи
-  // https://developer.mozilla.org/ru/docs/Web/HTML/Element/template -- шиблон
-  // https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment -- контейнер без лишних оберток
-  // очень выручают когда нужно создавать много похожих объектов
-  // будет здорово если попробуете реализовать, там реально 4-5 строк кода, зато
-  // не надо будет разметку HTML сюда тящить.
   const html = `<div class="place-card">
     <div class="place-card__image" style="background-image: url(${link})">
       <button class="place-card__delete-icon"></button>
@@ -131,7 +153,6 @@ function addCard(name, link) {
       <button class="place-card__like-icon"></button>
     </div>
   </div>`;
-  // А тут двойные кавычки не заменили))
   rootSection.insertAdjacentHTML('beforeend', html);
 }
 
@@ -150,9 +171,10 @@ function deleteCard(event) {
   rootSection.removeChild(card);
 }
 
-
+// action - enlarge card
 function enlargeCard(event) {
   const imageStyle = event.target.getAttribute('style');
+  console.log(imageStyle);
   popUpImageContent.setAttribute('style', imageStyle);
   popUpImageWindow.classList.add('popup_is-opened');
 }
@@ -168,38 +190,39 @@ function cardHandler(event) {
   }
 }
 
-rootSection.addEventListener('click', cardHandler);
 
+
+// edit and save user's info in editPopup
 function editInfo(userName, about) {
   userInforName.textContent = userName.value;
   userInfoJob.textContent = about.value;
 }
 
-
+// open or close the popup
 function handlePopup() {
   form.reset();
   popUpWindow.classList.toggle('popup_is-opened');
   inputHandler();
 }
 
-
+// open close edit popup
 function handleEditPopup() {
   popUpEditWindow.classList.toggle('popup_is-opened');
-
   const currentName = userInforName.textContent;
   const currentJob = userInfoJob.textContent;
-
   const nameInput = popUpEditWindow.querySelector('.popup__input_type_name');
   nameInput.value = currentName;
   const jobInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
   jobInput.value = currentJob;
 }
 
+// слушатели
+
 editButton.addEventListener('click', handleEditPopup);
 addButton.addEventListener('click', handlePopup);
 
 
-
+rootSection.addEventListener('click', cardHandler);
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -235,59 +258,4 @@ form_edit.addEventListener('submit', function (event) {
 })
 
 
-
-
-// Добрый день!
-
-// Работа аккуратная, код легко читается, карточки загружаются из массива, добавляются новые карточки пользователя.
-// Для удаления карточек реализовано делегирование -- отлично!
-// Но есть пара моментов, которые следует улучшить
-
-// Надо исправить:
-
-// Закрытие и открытие окна попапа нужно вынести в отдельный метод, который через classList.toggle
-// будет менять состояние окна. Этот метод
-// можно прикрепить к обработчикам открытия и закрытия окна, в методе добавления новой карты использовать.
-
-// Рефакторинг обработки лайков
-
-// Прочие замечания в коде
-
-// Можно лучше
-// - деструктуризация
-// - стрелочные функции для коллбэков
-// - используйте один тип кавычек для строк ''
-// - переменные лучше определять в отдельном блоке
-// - массив можно вынести в отдельный файл и подключать в HTML через <script>
-
-// Исправьте критические замечания и присылайте работу на проверку.
-
-// Здравствуйте! Спасибо за комментарии, доступно и понятно для нубиков как я : )))
-
-
-// ============== Review 2
-// Еще раз добрый день.
-// Уже можно было бы зачет получить, но у вас окно попапа не закрывается, потому что переменная не объявлена в которой элемент
-// кнопки закрытия должен быть.
-//Какой вывод из этого мы должны сделать -- после рефакторинга всегда проверяйте работоспособность приложения,
-// особенно в той части функционала, которую меняли, всегда тестируйте с открытой консольлю, т
-//уда будут валиться ошибки. Используйте 'use strict'.
-//
-// Рефакторинг вы провели хорошо, код стал чище, гораздо лучше читается, и вообще лишнее ушло.
-//Что касается места нахождения файлов скрипта, забыл
-// еще в первый раз написать, что лучше заведите в корне проекта папку js или script и
-//храните их там, это удобнее.
-//
-// Комментарии и пожелания в коде.
-//
-// Исправьте ошибку и присылайте на проверку, и помните, что новички рано или поздно становятся миддлами и лидами,
-//все зависит только от стремления
-// и желания узнавать новое )))
-
-// === Review 3
-// Все работает, карты загружаются из массива, можно добавить свою карту, удалить карту, поставить лайк.addButton
-// Код чистый, хорошо структурированный. Все обязательные задания выполнены. Работа зачтена.
-
-// Можно лучше
-
-// - добавить проверку полей формы (пустые или нет, если пустые, то не сохранять карту)
+// См. Review.md
