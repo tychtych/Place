@@ -1,10 +1,9 @@
 .popup__content-image {
-    width: 80vmin;
-    height: 80vmin;
+    max-width: 80vw;
+    max-height: 80vh;
     position: relative;
     box-sizing: border-box;
     object-fit: cover;
-    padding: 34px 36px;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     

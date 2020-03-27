@@ -12,17 +12,13 @@ const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image'
 const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
 // Имя переменной в неверной нотации
-// Надо исправить
+// Надо исправить edit with capital letter camelCase
 const form_edit = document.forms.popupEdit;
 const userInforName = container.querySelector('.user-info__name');
 const userInfoJob = container.querySelector('.user-info__job');
 // Эти 5 переменных не используются
 // Не стоит ли их удалить
-const inputName = form_edit.name;
-const editInput = popUpEditWindow.querySelector('.popup__input_type_name');
-const aboutInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
-const editNameErrorMessage = popUpEditWindow.querySelector('#error-edit-name');
-const editAboutErrorMessage = popUpEditWindow.querySelector('#error-edit-about');
+
 
 // функции
 
@@ -68,17 +64,17 @@ function checkInputValidity(input, error) {
     return false;
     // Надо исправить
     // else после return не нужен, достаточно if
-  } else if (input.value.length < 2 || input.value.length > 30) {
+  }
+  if (input.value.length < 2 || input.value.length > 30) {
     error.classList.remove('error-message__hidden');
     error.textContent = 'Должно быть от 2 до 30 символов';
     return false;
     // Надо исправить
     // А здесь не нужен else
-  } else {
-    error.textContent = '';
-    error.classList.add('error-message__hidden');
-    return true;
   }
+  error.textContent = '';
+  error.classList.add('error-message__hidden');
+  return true;
 }
 
 function validateForm(form) {
@@ -88,7 +84,7 @@ function validateForm(form) {
 
   // You need to fix it
   // Ary you sure that there are only inputs will be inside the form? It's a hardcode.
-  // You need to collect ONLY inputs from form.
+  // You need to collect ONLY inputs from form. check if div is input (how to get only inputs?)
   const inputs = Array.from(form);
   // iterate through every input from the array list
   inputs.forEach((elem) => {
@@ -98,12 +94,12 @@ function validateForm(form) {
     // submit не определен
     // Кроме того, эту проверку убеорите, ведь все равно мы в массив будем добавлять
     // только инпуты а не все на свете
-    // для этого используйте someParentNode.getElementsByTagName()
+    // для этого используйте someParentNode.getElementsByTagName() - 
     if (elem.id !== submit.id) {
       // find const errorElement
       const errorElement = container.querySelector(`#error-${elem.id}`)
       // if the element doesn't pass validation, flag changes to false
-      
+
       if (!checkInputValidity(elem, errorElement)) isValidForm = false;
     }
   });
@@ -142,10 +138,10 @@ assignCloseButton(popUpWindow);
 assignCloseButton(popUpEditWindow);
 assignCloseButton(popUpImageWindow);
 
-// adds a card with a name and a link
+// adds a card with a name and a link, can add any attribute
 function addCard(name, link) {
   const html = `<div class="place-card">
-    <div class="place-card__image" style="background-image: url(${link})">
+    <div class="place-card__image" backLink="${link}"  style="background-image: url(${link})">
       <button class="place-card__delete-icon"></button>
     </div>
     <div class="place-card__description">
@@ -154,6 +150,7 @@ function addCard(name, link) {
     </div>
   </div>`;
   rootSection.insertAdjacentHTML('beforeend', html);
+ 
 }
 
 
@@ -161,6 +158,9 @@ initialCards.forEach(({
   name,
   link
 }) => addCard(name, link));
+
+
+
 // action - like card
 function likeCard(event) {
   event.target.classList.toggle('place-card__like-icon_liked');
@@ -173,9 +173,8 @@ function deleteCard(event) {
 
 // action - enlarge card
 function enlargeCard(event) {
-  const imageStyle = event.target.getAttribute('style');
-  console.log(imageStyle);
-  popUpImageContent.setAttribute('style', imageStyle);
+  const imageStyle = event.target.getAttribute('backLink');
+  popUpImageContent.setAttribute('src', imageStyle);
   popUpImageWindow.classList.add('popup_is-opened');
 }
 
@@ -210,9 +209,9 @@ function handleEditPopup() {
   popUpEditWindow.classList.toggle('popup_is-opened');
   const currentName = userInforName.textContent;
   const currentJob = userInfoJob.textContent;
-  const nameInput = popUpEditWindow.querySelector('.popup__input_type_name');
+  const nameInput = popUpEditWindow.querySelector('.popup__input_type_Editname');
   nameInput.value = currentName;
-  const jobInput = popUpEditWindow.querySelector('.popup__input_type_link-url');
+  const jobInput = popUpEditWindow.querySelector('.popup__input_type_Editlink-url');
   jobInput.value = currentJob;
 }
 
