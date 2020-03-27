@@ -184,12 +184,8 @@ function editInfo(userName, about) {
 function assignCloseButton(popUpBlock) {
   // Надо исправить -- метод в методе определять не стоит
   // еще см. комментарий в Review.md
-  function handlePopup() {
-    popUpBlock.classList.toggle('popup_is-opened');
-  }
-
+  toggleAnyPopup(popUpBlock);
   const closeButton = popUpBlock.querySelector('.popup__close');
-
   closeButton.addEventListener('click', handlePopup);
 }
 
