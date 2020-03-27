@@ -122,6 +122,22 @@ function setEventListeners(popupElem) {
 setEventListeners(popUpEditWindow);
 
 
+function assignCloseButton(popUpBlock) {
+  // Надо исправить -- метод в методе определять не стоит
+  // еще см. комментарий в Review.md
+  function handlePopup() {
+    popUpBlock.classList.toggle('popup_is-opened');
+  }
+
+  const closeButton = popUpBlock.querySelector('.popup__close');
+
+  closeButton.addEventListener('click', handlePopup);
+}
+
+assignCloseButton(popUpWindow);
+assignCloseButton(popUpEditWindow);
+assignCloseButton(popUpImageWindow);
+
 // adds a card with a name and a link, can add any attribute
 function addCard(name, link) {
   const html = `<div class="place-card">
@@ -174,12 +190,14 @@ function cardHandler(event) {
 }
 
 
+
 // edit and save user's info in editPopup
 function editInfo(userName, about) {
   userInforName.textContent = userName.value;
   userInfoJob.textContent = about.value;
 }
 
+<<<<<<< HEAD
 
 function assignCloseButton(popUpBlock) {
   // Надо исправить -- метод в методе определять не стоит
@@ -198,16 +216,18 @@ function toggleAnyPopup (block) {
   block.classList.toggle('popup_is-opened')
 }
 
+=======
+>>>>>>> parent of 419546f... toggleAnyPopup
 // open or close the popup
 function handlePopup() {
   form.reset();
-  toggleAnyPopup(popUpWindow);
+  popUpWindow.classList.toggle('popup_is-opened');
   inputHandler();
 }
 
 // open close edit popup
 function handleEditPopup() {
-  toggleAnyPopup(popUpEditWindow);
+  popUpEditWindow.classList.toggle('popup_is-opened');
   const currentName = userInforName.textContent;
   const currentJob = userInfoJob.textContent;
   const nameInput = popUpEditWindow.querySelector('.popup__input_type_Editname');

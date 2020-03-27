@@ -48,12 +48,12 @@
 
         <form class="popup__form" name="popupEdit" novalidate>
           <div class="input-container"> 
-            <input id="edit-name" type="text" name="userName" class="popup__input popup__input_type_name" placeholder="Имя">
+            <input id="edit-name" type="text" name="userName" class="popup__input popup__input_type_Editname" placeholder="Имя">
             <span id="error-edit-name" class="error-message error-message__hidden"></span>
           </div>
 
           <div class="input-container"> 
-            <input id="edit-about" type="text" name="about" class="popup__input popup__input_type_link-url" placeholder="О себе">
+            <input id="edit-about" type="text" name="about" class="popup__input popup__input_type_Editlink-url" placeholder="О себе">
             <span id="error-edit-about" class="error-message error-message__hidden"></span>
           </div>
             <button id="submit" class="button popup__button"> Сохранить </button>
@@ -62,9 +62,10 @@
     </div>
 
     <div class="popupImage">
-      <img src="./" class="popup__content-image" alt="enlarged picture" >
-        <img src="./images/close.svg" alt="close edit" class="popup__close">
-    
+      <div class="popup__wrap-image">
+      <img  class="popup__content-image" >
+      <img src="./images/close.svg" alt="close edit" class="popup__close popup__close-image">
+    </div>
     </div>
       
     </div>
