@@ -184,21 +184,18 @@ function editInfo(userName, about) {
 function assignCloseButton(popUpBlock) {
   // Надо исправить -- метод в методе определять не стоит
   // еще см. комментарий в Review.md
-  function handlePopup() {
-    popUpBlock.classList.toggle('popup_is-opened');
-  }
-
   const closeButton = popUpBlock.querySelector('.popup__close');
-
-  closeButton.addEventListener('click', handlePopup);
+  closeButton.addEventListener('click', (e) => toggleAnyPopup(popUpBlock));
 }
-/*
-assignCloseButton(popUpWindow);
-assignCloseButton(popUpEditWindow);
-assignCloseButton(popUpImageWindow);
-*/
 
-function toggleAnyPopup (block) {
+assignCloseButton(popUpWindow);
+
+assignCloseButton(popUpEditWindow);
+
+assignCloseButton(popUpImageWindow);
+
+
+function toggleAnyPopup(block) {
   block.classList.toggle('popup_is-opened');
 }
 
