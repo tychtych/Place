@@ -11,15 +11,9 @@ const popUpImageWindow = container.querySelector('.popupImage');
 const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
 const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
-// Имя переменной в неверной нотации
-// Надо исправить edit with capital letter camelCase
-const form_edit = document.forms.popupEdit;
+const formEdit = document.forms.popupEdit;
 const userInforName = container.querySelector('.user-info__name');
 const userInfoJob = container.querySelector('.user-info__job');
-// Эти 5 переменных не используются
-// Не стоит ли их удалить
-
-
 // функции
 
 // enables the button depending on the input in PopUpWindow
@@ -62,15 +56,11 @@ function checkInputValidity(input, error) {
     error.classList.remove('error-message__hidden');
     error.textContent = 'Это обязательное поле';
     return false;
-    // Надо исправить
-    // else после return не нужен, достаточно if
   }
   if (input.value.length < 2 || input.value.length > 30) {
     error.classList.remove('error-message__hidden');
     error.textContent = 'Должно быть от 2 до 30 символов';
     return false;
-    // Надо исправить
-    // А здесь не нужен else
   }
   error.textContent = '';
   error.classList.add('error-message__hidden');
@@ -81,28 +71,14 @@ function validateForm(form) {
   // create a flag
   let isValidForm = true;
   // make an input array from the edit form
+  const inputs = form.getElementsByTagName("input");
 
-  // You need to fix it
-  // Ary you sure that there are only inputs will be inside the form? It's a hardcode.
-  // You need to collect ONLY inputs from form. check if div is input (how to get only inputs?)
-  const inputs = Array.from(form);
   // iterate through every input from the array list
-  inputs.forEach((elem) => {
-
-    // if it's not a button, execute code
-    // Надо исправить
-    // submit не определен
-    // Кроме того, эту проверку убеорите, ведь все равно мы в массив будем добавлять
-    // только инпуты а не все на свете
-    // для этого используйте someParentNode.getElementsByTagName() - 
-    if (elem.id !== submit.id) {
-      // find const errorElement
-      const errorElement = container.querySelector(`#error-${elem.id}`)
-      // if the element doesn't pass validation, flag changes to false
-
-      if (!checkInputValidity(elem, errorElement)) isValidForm = false;
-    }
-  });
+  for (let elem of inputs) {
+    const errorElement = container.querySelector(`#error-${elem.id}`)
+    // if the element doesn't pass validation, flag changes to false
+    if (!checkInputValidity(elem, errorElement)) isValidForm = false;
+  };
   // find a submit button by class which is found on a form
   const submitButton = form.querySelector('.popup__button');
   // use setSubmitButtonState to pass the arguments button and isValidForm to link to a button state
@@ -134,7 +110,7 @@ function addCard(name, link) {
     </div>
   </div>`;
   rootSection.insertAdjacentHTML('beforeend', html);
- 
+
 }
 
 
@@ -181,11 +157,13 @@ function editInfo(userName, about) {
   userInfoJob.textContent = about.value;
 }
 
+function toggleAnyPopup(block) {
+  block.classList.toggle('popup_is-opened');
+}
+
 function assignCloseButton(popUpBlock) {
-  // Надо исправить -- метод в методе определять не стоит
-  // еще см. комментарий в Review.md
   const closeButton = popUpBlock.querySelector('.popup__close');
-  closeButton.addEventListener('click', (e) => toggleAnyPopup(popUpBlock));
+  closeButton.addEventListener('click', () => toggleAnyPopup(popUpBlock));
 }
 
 assignCloseButton(popUpWindow);
@@ -195,9 +173,7 @@ assignCloseButton(popUpEditWindow);
 assignCloseButton(popUpImageWindow);
 
 
-function toggleAnyPopup(block) {
-  block.classList.toggle('popup_is-opened');
-}
+
 
 // open or close the popup
 function handlePopup() {
@@ -243,17 +219,17 @@ form.addEventListener('submit', function (event) {
 
 form.addEventListener('input', inputHandler);
 
-form_edit.addEventListener('submit', function (event) {
+formEdit.addEventListener('submit', function (event) {
   event.preventDefault();
 
   const {
     userName,
     about
-  } = form_edit.elements;
+  } = formEdit.elements;
 
   editInfo(userName, about);
 
-  form_edit.reset();
+  formEdit.reset();
   handleEditPopup();
 
 })
