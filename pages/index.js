@@ -1,8 +1,9 @@
 'use strict'
 
+
 // переменные
-const container = document.querySelector('.root');
-const rootSection = container.querySelector('.places-list');
+//const container = document.querySelector('.root');
+//const rootSection = container.querySelector('.places-list');
 const addButton = container.querySelector('.user-info__button');
 const popUpWindow = container.querySelector('.popup');
 const popUpButton = container.querySelector('.popup__button');
@@ -99,6 +100,7 @@ setEventListeners(popUpEditWindow);
 
 
 // adds a card with a name and a link, can add any attribute
+/*
 function addCard(name, link) {
   const html = `<div class="place-card">
     <div class="place-card__image" backLink="${link}"  style="background-image: url(${link})">
@@ -113,24 +115,26 @@ function addCard(name, link) {
 
 }
 
-
+*/
+/*
 initialCards.forEach(({
   name,
   link
 }) => addCard(name, link));
 
-
+*/
 
 // action - like card
 function likeCard(event) {
   event.target.classList.toggle('place-card__like-icon_liked');
 }
 // action - delete card
+/*
 function deleteCard(event) {
   const card = event.target.closest('.place-card');
   rootSection.removeChild(card);
 }
-
+*/
 // action - enlarge card
 function enlargeCard(event) {
   const imageStyle = event.target.getAttribute('backLink');
@@ -199,8 +203,8 @@ editButton.addEventListener('click', handleEditPopup);
 addButton.addEventListener('click', handlePopup);
 
 
-rootSection.addEventListener('click', cardHandler);
-
+//rootSection.addEventListener('click', cardHandler);
+/*
 form.addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -214,7 +218,7 @@ form.addEventListener('submit', function (event) {
   form.reset();
   handlePopup();
 });
-
+*/
 
 
 form.addEventListener('input', inputHandler);
