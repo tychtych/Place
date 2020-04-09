@@ -32,6 +32,8 @@ class CardList {
           });
         for (let htmlCard of htmlCardArray) {
             this.listContainer.append(htmlCard);
+            
+
         }
         
     }
