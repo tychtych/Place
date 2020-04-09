@@ -4,7 +4,12 @@ class Card {
     this.name = name;
     this.link = link;
   }
-
+  setEventlisteners() {
+    this
+    .cardElement
+    .querySelector('.place-card__like-icon')
+    .addEventListener('click', this.like)
+  }
   /*
    *Creates a div with a name and image background
    *
@@ -37,7 +42,12 @@ class Card {
     cardDescription.appendChild(cardName);
     cardDescription.appendChild(buttonLike);
 
+    this.cardElement = cardContainer;
     return cardContainer;
+  }
+  like(event) {
+    event.target.classList.toggle('place-card__like-icon_liked');
+    
   }
 }
 
@@ -53,7 +63,7 @@ class Card {
   </div>
   </div>`; */
 
-const newCard = new Card('Baikal', 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg');
+
 
 
 /*   

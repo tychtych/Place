@@ -4,13 +4,13 @@
 // переменные
 //const container = document.querySelector('.root');
 //const rootSection = container.querySelector('.places-list');
-const addButton = container.querySelector('.user-info__button');
-const popUpWindow = container.querySelector('.popup');
-const popUpButton = container.querySelector('.popup__button');
-const popUpEditWindow = container.querySelector('.popupEdit');
-const popUpImageWindow = container.querySelector('.popupImage');
+//const addButton = container.querySelector('.user-info__button');
+//const popUpWindow = container.querySelector('.popup');
+//const popUpButton = container.querySelector('.popup__button');
+//const popUpEditWindow = container.querySelector('.popupEdit');
+//const popUpImageWindow = container.querySelector('.popupImage');
 const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
-const editButton = container.querySelector('.user-info-edit__button');
+//const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
 const formEdit = document.forms.popupEdit;
 const userInforName = container.querySelector('.user-info__name');
@@ -125,9 +125,9 @@ initialCards.forEach(({
 */
 
 // action - like card
-function likeCard(event) {
-  event.target.classList.toggle('place-card__like-icon_liked');
-}
+//function likeCard(event) {
+//  event.target.classList.toggle('place-card__like-icon_liked');
+//}
 // action - delete card
 /*
 function deleteCard(event) {
@@ -161,6 +161,7 @@ function editInfo(userName, about) {
   userInfoJob.textContent = about.value;
 }
 
+/*
 function toggleAnyPopup(block) {
   block.classList.toggle('popup_is-opened');
 }
@@ -200,9 +201,9 @@ function handleEditPopup() {
 // слушатели
 
 editButton.addEventListener('click', handleEditPopup);
-addButton.addEventListener('click', handlePopup);
+//addButton.addEventListener('click', handlePopup);
 
-
+*/
 //rootSection.addEventListener('click', cardHandler);
 /*
 form.addEventListener('submit', function (event) {

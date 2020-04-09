@@ -18,6 +18,7 @@ class CardList {
      */
     addNewCard(newCard) {
         this.cardArray.push(newCard);
+        
     }
     /*
      *Displays cards in list container
