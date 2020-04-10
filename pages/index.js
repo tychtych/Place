@@ -12,9 +12,9 @@
 const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
 //const editButton = container.querySelector('.user-info-edit__button');
 const form = document.forms.new;
-const formEdit = document.forms.popupEdit;
-const userInforName = container.querySelector('.user-info__name');
-const userInfoJob = container.querySelector('.user-info__job');
+//const formEdit = document.forms.popupEdit;
+//const userInforName = container.querySelector('.user-info__name');
+//const userInfoJob = container.querySelector('.user-info__job');
 // функции
 
 // enables the button depending on the input in PopUpWindow
@@ -154,7 +154,7 @@ function cardHandler(event) {
 }
 
 
-
+/*
 // edit and save user's info in editPopup
 function editInfo(userName, about) {
   userInforName.textContent = userName.value;
@@ -221,7 +221,7 @@ form.addEventListener('submit', function (event) {
 });
 */
 
-
+/*
 form.addEventListener('input', inputHandler);
 
 formEdit.addEventListener('submit', function (event) {
@@ -239,5 +239,5 @@ formEdit.addEventListener('submit', function (event) {
 
 })
 
-
+*/
 // См. Review.md

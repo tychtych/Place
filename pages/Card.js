@@ -4,12 +4,7 @@ class Card {
     this.name = name;
     this.link = link;
   }
-  setEventlisteners() {
-    this
-    .cardElement
-    .querySelector('.place-card__like-icon')
-    .addEventListener('click', this.like)
-  }
+  
   /*
    *Creates a div with a name and image background
    *
@@ -45,32 +40,10 @@ class Card {
     this.cardElement = cardContainer;
     return cardContainer;
   }
-  like(event) {
+  like() {
     event.target.classList.toggle('place-card__like-icon_liked');
     
   }
 }
 
 
-/*
-  return html `<div class="place-card">
-  <div class="place-card__image" backLink="${this.link}"  style="background-image: url(${this.link})">
-    <button class="place-card__delete-icon"></button>
-  </div>
-  <div class="place-card__description">
-    <h3 class="place-card__name">${this.name}</h3>
-    <button class="place-card__like-icon"></button>
-  </div>
-  </div>`; */
-
-
-
-
-/*   
-for (card of initialCards) {
-  const nCard = new Card(card.name, card.link);
-  console.log(nCard);  
-}
-
-//const nArray = new Array(nCard);
-*/
