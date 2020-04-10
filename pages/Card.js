@@ -1,10 +1,11 @@
 class Card {
 
-  constructor(name, link) {
+  constructor(name, link, imagePopup) {
     this.name = name;
     this.link = link;
+    this.imagePopup = imagePopup;
   }
-  
+
   /*
    *Creates a div with a name and image background
    *
@@ -38,7 +39,7 @@ class Card {
     cardDescription.appendChild(buttonLike);
 
     this.cardElement = cardContainer;
-    
+
     this.setEventListeners();
     return cardContainer;
   }
@@ -46,14 +47,22 @@ class Card {
   setEventListeners() {
     this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
     this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
-}
+    this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this.cardElement))
+  }
+
+  enlarge() {
+    this.imagePopup.setLink(this.link);
+    this.imagePopup.open();
+    
+  }
 
   like(event) {
     event.target.classList.toggle('place-card__like-icon_liked');
-    
+
   }
   remove(event) {
     this.parentNode.removeChild(this);
   }
 }
+
 

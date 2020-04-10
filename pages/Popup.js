@@ -9,7 +9,6 @@ class Popup {
      */
     constructor(popupContainer) {
         this.popupContainer = popupContainer;
-
     }
 
     /*
@@ -24,7 +23,6 @@ class Popup {
     close() {
         this.popupContainer.classList.remove('popup_is-opened');
     }
-
 }
 /*
  * 
@@ -34,24 +32,15 @@ class PopupImage extends Popup {
     constructor(popupContainer) {
         super(popupContainer);
     }
+
+    setLink(link) {
+        this.link = link;
+        this.updateLink();
+    }
+
+    updateLink() {
+        //TODO update view (div style)
+        this.popupContainer.setAttribute('style',this.link);
+        
+    }
 }
-
-
-
-const popUpWindow = container.querySelector('.popup');
-const popUpEditWindow = container.querySelector('.popupEdit');
-const popUpImageWindow = container.querySelector('.popupImage');
-
-
-const cardPopup = new Popup(popUpWindow);
-const cardEditPopup = new Popup(popUpEditWindow)
-
-const addButton = container.querySelector('.user-info__button');
-const editButton = container.querySelector('.user-info-edit__button');
-const closeButton = container.querySelector('.popup__close');
-const closeEditButton = container.querySelector('.popup__edit-close');
-
-addButton.addEventListener('click', cardPopup.open.bind(cardPopup));
-editButton.addEventListener('click', cardEditPopup.open.bind(cardEditPopup));
-closeButton.addEventListener('click', cardPopup.close.bind(cardPopup));
-closeEditButton.addEventListener('click', cardEditPopup.close.bind(cardEditPopup));
