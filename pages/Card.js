@@ -38,12 +38,22 @@ class Card {
     cardDescription.appendChild(buttonLike);
 
     this.cardElement = cardContainer;
+    
+    this.setEventListeners();
     return cardContainer;
   }
-  like() {
+
+  setEventListeners() {
+    this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
+    this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
+}
+
+  like(event) {
     event.target.classList.toggle('place-card__like-icon_liked');
     
   }
+  remove(event) {
+    this.parentNode.removeChild(this);
+  }
 }
-
 
