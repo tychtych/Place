@@ -4,6 +4,7 @@ class Card {
     this.name = name;
     this.link = link;
     this.imagePopup = imagePopup;
+    console.log(this);
   }
 
   /*
@@ -39,7 +40,7 @@ class Card {
     cardDescription.appendChild(buttonLike);
 
     this.cardElement = cardContainer;
-
+    
     this.setEventListeners();
     return cardContainer;
   }
@@ -47,11 +48,12 @@ class Card {
   setEventListeners() {
     this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
     this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
-    this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this.cardElement))
+    this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this));
   }
 
   enlarge() {
     this.imagePopup.setLink(this.link);
+    //this.imagePopup.updateLink();
     this.imagePopup.open();
     
   }

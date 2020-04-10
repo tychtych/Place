@@ -40,7 +40,7 @@ class PopupImage extends Popup {
 
     updateLink() {
         //TODO update view (div style)
-        this.popupContainer.setAttribute('style',this.link);
+        this.popupContainer.querySelector('.popup__content-image').setAttribute('src', this.link);
         
     }
 }
