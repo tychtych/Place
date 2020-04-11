@@ -18,9 +18,10 @@ class CardList {
      */
     addNewCard(newCard) {
         this.cardArray.push(newCard);
-        
-        
+        const htmlNewCard = newCard.create();
+        this.listContainer.append(htmlNewCard);
     }
+
     /*
      *Displays cards in list container
      *
@@ -36,7 +37,8 @@ class CardList {
             
 
         }
-        
+    
+
     }
 
 
@@ -69,6 +71,8 @@ closeEditButton.addEventListener('click', cardEditPopup.close.bind(cardEditPopup
 closeImageButton.addEventListener('click', popupImageInstance.close.bind(popupImageInstance));
 
 
+const userName = popUpWindow.querySelector('.popup__input_type_name');
+const imageLink = popUpWindow.querySelector('.popup__input_type_link-url');
 
 
 
@@ -81,7 +85,11 @@ const inititalCardsArray = initialCards.map(card => new Card(card.name, card.lin
 const newCardList = new CardList(listContainer, inititalCardsArray);
 newCardList.render();
 
+
 form.addEventListener('submit', function(event){
     event.preventDefault();
-
+    const customCard = new Card(userName.value, imageLink.value, popupImageInstance);
+    newCardList.addNewCard(customCard);
+    cardPopup.close();
+    form.reset();
 })

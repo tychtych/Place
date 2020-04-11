@@ -1,5 +1,10 @@
 'use strict'
 
+const errorMessages = {
+  valueMissing: 'Это обязательное поле',
+  tooShort: 'Должно быть от 2 до 30 символов',
+  typeMismatch: 'Здесь должна быть ссылка'
+}
 
 // переменные
 //const container = document.querySelector('.root');
@@ -9,14 +14,14 @@
 //const popUpButton = container.querySelector('.popup__button');
 //const popUpEditWindow = container.querySelector('.popupEdit');
 //const popUpImageWindow = container.querySelector('.popupImage');
-const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
+//const popUpImageContent = popUpImageWindow.querySelector('.popup__content-image');
 //const editButton = container.querySelector('.user-info-edit__button');
-const form = document.forms.new;
+//const form = document.forms.new;
 //const formEdit = document.forms.popupEdit;
 //const userInforName = container.querySelector('.user-info__name');
 //const userInfoJob = container.querySelector('.user-info__job');
 // функции
-
+/*
 // enables the button depending on the input in PopUpWindow
 function inputHandler() {
   // Можно лучше -- деструктуризация
@@ -98,7 +103,7 @@ function setEventListeners(popupElem) {
 
 setEventListeners(popUpEditWindow);
 
-
+*/
 // adds a card with a name and a link, can add any attribute
 /*
 function addCard(name, link) {
@@ -134,14 +139,15 @@ function deleteCard(event) {
   const card = event.target.closest('.place-card');
   rootSection.removeChild(card);
 }
-*/
+
 // action - enlarge card
 function enlargeCard(event) {
   const imageStyle = event.target.getAttribute('backLink');
   popUpImageContent.setAttribute('src', imageStyle);
   popUpImageWindow.classList.add('popup_is-opened');
 }
-
+*/
+/*
 // handles events on the card
 function cardHandler(event) {
   if (event.target.closest('.place-card__like-icon')) {
@@ -153,7 +159,7 @@ function cardHandler(event) {
   }
 }
 
-
+*/
 /*
 // edit and save user's info in editPopup
 function editInfo(userName, about) {
