@@ -18,35 +18,43 @@ class FormValidator {
      */
     checkInputValidity(event) {
         const inputElem = event.target;
-        const errorElem = container.querySelector(`#error-${inputElem.id}`)
-
+        
+        const errorElem = container.querySelector(`#error-${inputElem.id}`);
+        
         if (inputElem.validity.valueMissing) {
+            errorElem.classList.remove('error-message__hidden');
             errorElem.textContent = errorMessages.valueMissing;
-        } else if (inputElem.validity.tooShort) {
+            
+        } else if (inputElem.validity.tooShort || inputElem.validity.tooLong) {
+            errorElem.classList.remove('error-message__hidden');
             errorElem.textContent = errorMessages.tooShort;
+            
         } else if (inputElem.validity.typeMismatch) {
+            errorElem.classList.remove('error-message__hidden');
             errorElem.textContent = errorMessages.typeMismatch;
         } else {
+            errorElem.classList.add('error-message__hidden');
             inputElem.setCustomValidity('');
         }
+        //errorElem.textContent = inputElem.validationMessage;
     }
 
     setSubmitButtonState() {
         if (this.formElem.checkValidity()) {
-
+            this.submitButton.classList.remove('popup__button-disabled');
             this.submitButton.removeAttribute('disabled');
-
         } else {
-
+            this.submitButton.classList.add('popup__button-disabled');
             this.submitButton.setAttribute('disabled', true);
-
         }
     }
 
     setEventListeners() {
         
         this.inputElems.forEach(inputElem => {
+          
           inputElem.addEventListener('input', this.checkInputValidity.bind(this));
+          
         });
 
         this.formElem.addEventListener('input', this.setSubmitButtonState.bind(this));
@@ -54,4 +62,9 @@ class FormValidator {
 }
 
 const editValidationForm = new FormValidator(formEdit);
+
 editValidationForm.setEventListeners();
+
+const addImageValidation = new FormValidator(form);
+
+addImageValidation.setEventListeners();

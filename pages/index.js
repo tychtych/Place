@@ -103,7 +103,7 @@ function setEventListeners(popupElem) {
 
 setEventListeners(popUpEditWindow);
 
-*/
+
 // adds a card with a name and a link, can add any attribute
 /*
 function addCard(name, link) {
