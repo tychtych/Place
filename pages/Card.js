@@ -47,24 +47,31 @@ class Card {
 
   setEventListeners() {
     this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
-    this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this));
-    this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
+    this.cardElement.addEventListener('click', this.enlarge.bind(this));
+    this.cardElement.addEventListener('click', this.remove.bind(this.cardElement));
+    //this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this));
+    //this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
     
   }
 
   enlarge() {
+    if (event.target.classList.contains('place-card__image')){
     this.imagePopup.setLink(this.link);
-    //this.imagePopup.updateLink();
     this.imagePopup.open();
-    
+    }
   }
 
   like(event) {
-    event.target.classList.toggle('place-card__like-icon_liked');
+    
+      event.target.classList.toggle('place-card__like-icon_liked');
+    
 
   }
+  
   remove(event) {
-    this.parentNode.removeChild(this);
+    if (event.target.closest('.place-card__delete-icon')) {
+      this.parentNode.removeChild(this);
+    }
   }
 }
 

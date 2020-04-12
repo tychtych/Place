@@ -43,7 +43,7 @@ class CardList {
 
 
 }
-
+/*
 const container = document.querySelector('.root');
 const listContainer = container.querySelector('.places-list');
 const form = document.forms.new;
@@ -93,3 +93,4 @@ form.addEventListener('submit', function(event){
     cardPopup.close();
     form.reset();
 })
+*/

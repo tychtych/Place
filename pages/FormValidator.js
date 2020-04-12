@@ -11,6 +11,7 @@ class FormValidator {
         this.formElem = formElem;
         this.inputElems = this.formElem.querySelectorAll('input');
         this.submitButton = this.formElem.querySelector('button');
+        
     }
     /*
      * shows error message if inputs are not valid// hides if inputs are valid
@@ -20,7 +21,7 @@ class FormValidator {
         const inputElem = event.target;
         
         const errorElem = container.querySelector(`#error-${inputElem.id}`);
-        
+        console.log(errorElem);
         if (inputElem.validity.valueMissing) {
             errorElem.classList.remove('error-message__hidden');
             errorElem.textContent = errorMessages.valueMissing;
@@ -60,6 +61,7 @@ class FormValidator {
         this.formElem.addEventListener('input', this.setSubmitButtonState.bind(this));
       }
 }
+
 
 const editValidationForm = new FormValidator(formEdit);
 
