@@ -27,13 +27,16 @@ class UserInfo {
      * updated name and job are assigned to inputs and divs
      */
     updateUserInfo() {
-          
+
       this.userInfoForm.querySelector('.popup__input_type_Editname').value = this.userName;
       this.userInfoForm.querySelector('.popup__input_type_Editlink-url').value = this.userJob;
       this.userInfoDiv.querySelector('.user-info__name').textContent = this.userName;
       this.userInfoDiv.querySelector('.user-info__job').textContent = this.userJob;
     }
 }
+
+/*
+
 const nameInput = popUpEditWindow.querySelector('.popup__input_type_Editname');
 const jobInput = popUpEditWindow.querySelector('.popup__input_type_Editlink-url');
 const userDiv = document.querySelector('.user-info__data');
@@ -48,10 +51,10 @@ const newEditUserInfo = new UserInfo(userInfoNameVal, userInfoJobVal, formEdit, 
 newEditUserInfo.updateUserInfo();
 
 formEdit.addEventListener('submit', function (event) {
-    
+
     event.preventDefault();
     newEditUserInfo.setUserInfo(nameInput.value, jobInput.value);
     newEditUserInfo.updateUserInfo();
     cardEditPopup.close();
 })
-
+*/

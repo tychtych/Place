@@ -4,7 +4,8 @@ class Card {
     this.name = name;
     this.link = link;
     this.imagePopup = imagePopup;
-    
+
+
   }
 
   /*
@@ -40,21 +41,30 @@ class Card {
     cardDescription.appendChild(buttonLike);
 
     this.cardElement = cardContainer;
-    
+
     this.setEventListeners();
     return cardContainer;
   }
 
   setEventListeners() {
     this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
-    this.cardElement.addEventListener('click', this.enlarge.bind(this));
-    this.cardElement.addEventListener('click', this.remove.bind(this.cardElement));
-    //this.cardElement.querySelector('.place-card__image').addEventListener('click', this.enlarge.bind(this));
-    //this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.remove.bind(this.cardElement));
-    
+
+    this.removeHandler = this.remove.bind(this);
+    this.cardElement.addEventListener('click', this.removeHandler);
+
+    this.enlargeHandler = this.enlarge.bind(this);
+    this.cardElement.addEventListener('click', this.enlargeHandler);
+
   }
 
+  /*REVIEW. Можно лучше. Я думаю метод открытия большого фото лучше перенести в класс PopupImage,
+  добавление обработчика события открытия большого фото осуществлять в index.js,
+  используя делегирование, например, на контейнер всех карточек.
+  Тогда обработчик этого события не надо будет удалять  при удалении карточки и классу Card
+  не надо было бы передавать экземляры PopupImage, что сделало бы Card более независимым
+  и легче переиспользуемым в других проектах. */
   enlarge() {
+
     if (event.target.classList.contains('place-card__image')){
     this.imagePopup.setLink(this.link);
     this.imagePopup.open();
@@ -62,15 +72,15 @@ class Card {
   }
 
   like(event) {
-    
       event.target.classList.toggle('place-card__like-icon_liked');
-    
-
   }
-  
+
   remove(event) {
     if (event.target.closest('.place-card__delete-icon')) {
-      this.parentNode.removeChild(this);
+      this.cardElement.removeEventListener('click', this.enlargeHandler);
+      this.cardElement.querySelector('.place-card__like-icon').removeEventListener('click', this.like);
+      this.cardElement.removeEventListener('click', this.removeHandler);
+      this.cardElement.parentNode.removeChild(this.cardElement);
     }
   }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>Mesto</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body>
   <div class="root">
     <header class="header root__section">
@@ -23,57 +25,76 @@
         <button class="button user-info__button">+</button>
       </div>
     </div>
-    
+
     <div class="places-list root__section">
 
     </div>
-    
+
     <div class="popup">
       <div class="popup__content">
         <img src="./images/close.svg" alt="close add" class="popup__close">
         <h3 class="popup__title">Новое место</h3>
 
         <form class="popup__form" name="new">
-            <input  type="text" name="name" class="popup__input popup__input_type_name" placeholder="Название" >
-            <input type="text" name="link" class="popup__input popup__input_type_link-url" placeholder="Ссылка на картинку">
-            <button class="button popup__button"> + </button>
+          <div class="input-container">
+            <input id="add-name" type="text" name="name" class="popup__input popup__input_type_name" placeholder="Название" minlength="2" maxlength="30" required>
+            <span id="error-add-name" class="error-message error-message__hidden"></span>
+          </div>
+          <div class="input-container">
+            <input id="add-image" type="url" name="link" class="popup__input popup__input_type_link-url"
+              placeholder="Ссылка на картинку" required>
+            <span id="error-add-image" class="error-message error-message__hidden"></span>
+          </div>
+          <button class="button popup__button"> + </button>
         </form>
       </div>
     </div>
-    
-    <div id="popupEdit" class="popupEdit" >
+
+    <div id="popupEdit" class="popupEdit">
       <div class="popup__content">
-        <img src="./images/close.svg" alt="close edit" class="popup__close">
+        <img src="./images/close.svg" alt="close edit" class="popup__edit-close">
         <h3 class="popup__title">Редактировать профиль</h3>
 
         <form class="popup__form" name="popupEdit" novalidate>
-          <div class="input-container"> 
-            <input id="edit-name" type="text" name="userName" class="popup__input popup__input_type_Editname" placeholder="Имя">
+          <div class="input-container">
+            <input id="edit-name" type="text" name="userName" class="popup__input popup__input_type_Editname"
+              placeholder="Имя" minlength="2" maxlength="30" required>
             <span id="error-edit-name" class="error-message error-message__hidden"></span>
           </div>
 
-          <div class="input-container"> 
-            <input id="edit-about" type="text" name="about" class="popup__input popup__input_type_Editlink-url" placeholder="О себе">
+          <div class="input-container">
+            <input id="edit-about" type="text" name="about" class="popup__input popup__input_type_Editlink-url"
+              placeholder="О себе" minlength="2" maxlength="30" required>
             <span id="error-edit-about" class="error-message error-message__hidden"></span>
           </div>
-            <button id="submit" class="button popup__button"> Сохранить </button>
+          <button id="submit" class="button popup__button"> Сохранить </button>
         </form>
       </div>
     </div>
 
     <div class="popupImage">
       <div class="popup__wrap-image">
-      <img  class="popup__content-image" >
-      <img src="./images/close.svg" alt="close edit" class="popup__close popup__close-image">
-    </div>
-    </div>
-      
+        <img class="popup__content-image">
+        <img src="./images/close.svg" alt="close edit" class="popup__close popup__image-close">
+      </div>
     </div>
 
-    
+  </div>
+
   
-  <script type="text/javascript" src="./pages/places.js"></script>
-  <script type="text/javascript" src="./pages/index.js"></script>
+  <script src="./js/places.js"></script>
+  <script src="./js/Card.js"></script>
+  <script src="./js/Popup.js"></script>
+  <script src="./js/PopupImage.js"></script>
+  <script src="./js/CardList.js"></script>
+  <script src="./js/UserInfo.js"></script>
+  <script src="./js/FormValidator.js"></script>
+  <script src="./js/Api.js"></script>
+  <script src="./js/index.js"></script>
   
+
+
+
 </body>
+
 </html>
