@@ -1,42 +1,89 @@
 class Api {
-    constructor(options) {
-      // тело конструктора
+    constructor(baseUrl, token) {
+        this.baseUrl = baseUrl;
+        this.token = token;
     }
-  
+
+    // Надо исправить
+    // Done! Токен и базовый URL необходимо передать в класс как параметр
+    editUserInfo(updatedName, updatedAbout) {
+        return fetch(`${this.baseUrl}/users/me`, {
+                method: 'PATCH',
+                headers: {
+                    authorization: this.token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: updatedName,
+                    about: updatedAbout
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }) // Done! Этот then лишний, надо убрать
+            .catch(errorMessage => {
+                throw new Error(errorMessage);
+            });
+    }
+
     getInitialCards() {
-      
+        return fetch(`${this.baseUrl}/cards`, {
+                headers: {
+                    authorization: this.token
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .catch(errorMessage => {
+                throw new Error(errorMessage);
+            })
     }
-  
-    getUserInfo(){
-        fetch('https://praktikum.tk/cohort10/users/me',{
-            headers: {
-                authorization: 'b7bf284d-e98b-46e7-a116-decc877d1eec'
-              }
-        })
-        .then(res => {
-            if(res.ok) {
-            console.log(res.json)
-            return res.json();
-            
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-        .then(data => console.log(data));
-        
-        
+
+    getUserInfo() {
+        return fetch(`${this.baseUrl}/users/me`, {
+                headers: {
+                    authorization: this.token
+                }
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+
+                }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .catch(errorMessage => {
+                throw new Error(errorMessage);
+            })
     }
-  }
-  
-  const api = new Api({
-    baseUrl: 'https://praktikum.tk/cohort10',
-    headers: {
-      authorization: 'b7bf284d-e98b-46e7-a116-decc877d1eec',
-      'Content-Type': 'application/json'
+
+    addCard(name, link) {
+        return fetch(`${this.baseUrl}/cards`, {
+                method: 'POST',
+                headers: {
+                    authorization: this.token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    link: link
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка: ${res.status}`)
+            })
+            .catch(errorMessage => {
+                throw new Error(errorMessage);
+            })
     }
-  });
-
-  api.getUserInfo()
-
-  
-
-  
+}

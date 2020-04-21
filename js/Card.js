@@ -23,12 +23,14 @@ class Card {
     const cardDescription = document.createElement('div');
     const cardName = document.createElement('h3');
     const buttonLike = document.createElement('button');
+    const likeCounter = document.createElement('h4');
     cardContainer.classList.add('place-card');
     cardImage.classList.add('place-card__image');
     buttonDelete.classList.add('place-card__delete-icon');
     cardDescription.classList.add('place-card__description');
     cardName.classList.add('place-card__name');
     buttonLike.classList.add('place-card__like-icon');
+    likeCounter.classList.add('place-card__like-counter');
 
     cardImage.setAttribute('style', `background-image: url(${this.link})`);
 

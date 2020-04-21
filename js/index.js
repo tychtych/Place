@@ -13,12 +13,13 @@ fetch('https://praktikum.tk/cohort10/cards', {
   */
 
 
-
 const errorMessages = {
   valueMissing: 'Это обязательное поле',
   tooShort: 'Должно быть от 2 до 30 символов',
   typeMismatch: 'Здесь должна быть ссылка'
 }
+
+const api = new Api('https://praktikum.tk/cohort10', 'b7bf284d-e98b-46e7-a116-decc877d1eec');
 
 const container = document.querySelector('.root');
 const listContainer = container.querySelector('.places-list');
@@ -42,11 +43,9 @@ const imageDiv = container.querySelector('.place-card__image');
 
 const nameInput = popUpEditWindow.querySelector('.popup__input_type_Editname');
 const jobInput = popUpEditWindow.querySelector('.popup__input_type_Editlink-url');
-const userDiv = document.querySelector('.user-info__data');
+const userDiv = document.querySelector('.user-info');
 const userInforName = userDiv.querySelector('.user-info__name');
-const userInfoNameVal = userInforName.textContent;
 const userInfoJob = userDiv.querySelector('.user-info__job');
-const userInfoJobVal = userInfoJob.textContent;
 const formEdit = document.forms.popupEdit;
 
 
@@ -59,17 +58,32 @@ closeImageButton.addEventListener('click', popupImageInstance.close.bind(popupIm
 const userName = popUpWindow.querySelector('.popup__input_type_name');
 const imageLink = popUpWindow.querySelector('.popup__input_type_link-url');
 
+const newEditUserInfo = new UserInfo(formEdit, userDiv);
 
-const inititalCardsArray = initialCards.map(card => new Card(card.name, card.link, popupImageInstance));
-//map function - store new aaray in the new const - returns updated array. It helps
-//to standatrise the array
 
-const newCardList = new CardList(listContainer, inititalCardsArray);
-newCardList.render();
+api.getUserInfo()
+  .then(userInfoResponse => {
+    newEditUserInfo.setUserInfo(userInfoResponse.name, userInfoResponse.about, userInfoResponse.avatar);
+    newEditUserInfo.updateUserInfo();
+  })
 
-const newEditUserInfo = new UserInfo(userInfoNameVal, userInfoJobVal, formEdit, userDiv);
+api.getInitialCards()
+  .then(cardsResponse => {
+    const inititalCardsArray = cardsResponse.map(card => new Card(card.name, card.link, popupImageInstance));
 
-newEditUserInfo.updateUserInfo();
+    const newCardList = new CardList(listContainer, inititalCardsArray);
+    newCardList.render();
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      api.addCard(userName.value, imageLink.value);
+      const customCard = new Card(userName.value, imageLink.value, popupImageInstance);
+      newCardList.addNewCard(customCard);
+      cardPopup.close();
+      form.reset();
+    })
+  })
+
 
 
 const editValidationForm = new FormValidator(formEdit, errorMessages);
@@ -79,7 +93,7 @@ const addImageValidation = new FormValidator(form, errorMessages);
 addImageValidation.setEventListeners();
 //addButton.addEventListener('click', cardPopup.open.bind(cardPopup));
 //when popup opens the form should be with non active button
-addButton.addEventListener('click', function() {
+addButton.addEventListener('click', function () {
   cardPopup.open.bind(cardPopup)();
   addImageValidation.resetForm();
 
@@ -87,6 +101,7 @@ addButton.addEventListener('click', function() {
 
 //при открытии попапа сетается юзер инфо
 editButton.addEventListener('click', function () {
+  // ???
   newEditUserInfo.updateUserInfo();
   cardEditPopup.open.bind(cardEditPopup)();
   editValidationForm.validateAllForm();
@@ -96,20 +111,21 @@ editButton.addEventListener('click', function () {
 
 formEdit.addEventListener('submit', function (event) {
 
-    event.preventDefault();
-    newEditUserInfo.setUserInfo(nameInput.value, jobInput.value);
-    newEditUserInfo.updateUserInfo();
-    cardEditPopup.close();
+  event.preventDefault();
+  api.editUserInfo(nameInput.value, jobInput.value)
+    .then(response => {
+      newEditUserInfo.setUserInfo(response.name, response.about, response.avatar);
+      newEditUserInfo.updateUserInfo();
+      cardEditPopup.close();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
 })
 
 
-form.addEventListener('submit', function(event){
-    event.preventDefault();
-    const customCard = new Card(userName.value, imageLink.value, popupImageInstance);
-    newCardList.addNewCard(customCard);
-    cardPopup.close();
-    form.reset();
-})
+
 
 
 

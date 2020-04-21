@@ -3,6 +3,8 @@
   margin-left: 36px;
 }
 
+
+
 @media screen and (max-width: 980px) {
   .user-info__data {
     margin: 20px 0;

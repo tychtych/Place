@@ -1,0 +1,15 @@
+@startuml
+User -> FormEdit: Submit Form
+
+FormEdit -> API: editUserInfo(nameInput.value, jobInput.value)
+API -> Server: PATCH /cohort10/users/me, body: {updatedName, updatedAbout}
+
+Server -> API: status: 200, body: {updatedName, updatedAbout, avatar, _id, cohort}
+
+API -> FormEdit: {updatedName, updatedAbout, avatar, _id, cohort}
+
+FormEdit -> UserInfo: setUserInfo(updatedName, updatedAbout)
+FormEdit -> UserInfo: updateUserInfo()
+
+FormEdit -> CardEditPopup: close()
+@enduml
