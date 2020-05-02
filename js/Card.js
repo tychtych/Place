@@ -1,11 +1,14 @@
 class Card {
 
-  constructor(name, link, imagePopup) {
+  constructor(name, link, likesCount, cardId, cardOwnerId, userId, imagePopup, handleDelete) {
     this.name = name;
     this.link = link;
+    this.likesCount = likesCount;
+    this.cardId = cardId;
+    this.cardOwnerId = cardOwnerId;
+    this.userId = userId;
     this.imagePopup = imagePopup;
-
-
+    this.handleDelete = handleDelete;
   }
 
   /*
@@ -16,31 +19,40 @@ class Card {
   //TODO return HTMLElement
   create() {
     const cardContainer = document.createElement('div');
-
-
     const cardImage = document.createElement('div');
-    const buttonDelete = document.createElement('button');
     const cardDescription = document.createElement('div');
     const cardName = document.createElement('h3');
     const buttonLike = document.createElement('button');
     const likeCounter = document.createElement('h4');
+    const likeDiv = document.createElement('div');
     cardContainer.classList.add('place-card');
     cardImage.classList.add('place-card__image');
-    buttonDelete.classList.add('place-card__delete-icon');
+    //нужно создавать батон делит только для тех карточек которые можно удалить
+    if (this.cardOwnerId === this.userId) {
+      const buttonDelete = document.createElement('button');
+      buttonDelete.classList.add('place-card__delete-icon');
+      cardImage.appendChild(buttonDelete);
+    }
+
     cardDescription.classList.add('place-card__description');
     cardName.classList.add('place-card__name');
+    likeDiv.classList.add('place-card__like-container');
     buttonLike.classList.add('place-card__like-icon');
     likeCounter.classList.add('place-card__like-counter');
+
+    likeCounter.textContent = this.likesCount.length;
 
     cardImage.setAttribute('style', `background-image: url(${this.link})`);
 
     cardName.textContent = this.name;
 
     cardContainer.appendChild(cardImage);
-    cardImage.appendChild(buttonDelete);
     cardContainer.appendChild(cardDescription);
     cardDescription.appendChild(cardName);
-    cardDescription.appendChild(buttonLike);
+    cardDescription.appendChild(likeDiv);
+    likeDiv.appendChild(buttonLike);
+    likeDiv.appendChild(likeCounter);
+
 
     this.cardElement = cardContainer;
 
@@ -49,14 +61,14 @@ class Card {
   }
 
   setEventListeners() {
-    this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
+    this.likeHandler = this.like.bind(this);
+    this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.likeHandler);
 
     this.removeHandler = this.remove.bind(this);
     this.cardElement.addEventListener('click', this.removeHandler);
 
     this.enlargeHandler = this.enlarge.bind(this);
     this.cardElement.addEventListener('click', this.enlargeHandler);
-
   }
 
   /*REVIEW. Можно лучше. Я думаю метод открытия большого фото лучше перенести в класс PopupImage,
@@ -67,24 +79,42 @@ class Card {
   и легче переиспользуемым в других проектах. */
   enlarge() {
 
-    if (event.target.classList.contains('place-card__image')){
-    this.imagePopup.setLink(this.link);
-    this.imagePopup.open();
+    if (event.target.classList.contains('place-card__image')) {
+      this.imagePopup.setLink(this.link);
+      this.imagePopup.open();
     }
   }
 
-  like(event) {
-      event.target.classList.toggle('place-card__like-icon_liked');
+  like(event) { 
+    
+      api.likeCard(this.cardId)
+        .then((response) => {
+          this.cardElement.querySelector('.place-card__like-counter').textContent = response.likes.length += 1;
+          event.target.classList.add('place-card__like-icon_liked');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    
+
   }
+
 
   remove(event) {
     if (event.target.closest('.place-card__delete-icon')) {
-      this.cardElement.removeEventListener('click', this.enlargeHandler);
-      this.cardElement.querySelector('.place-card__like-icon').removeEventListener('click', this.like);
-      this.cardElement.removeEventListener('click', this.removeHandler);
-      this.cardElement.parentNode.removeChild(this.cardElement);
+      const confirmDelete = window.confirm('Do you really want to delete this card?');
+      if (confirmDelete) {
+        this.handleDelete(this.cardId)
+          .then(() => {
+            this.cardElement.removeEventListener('click', this.enlargeHandler);
+            this.cardElement.querySelector('.place-card__like-icon').removeEventListener('click', this.like);
+            this.cardElement.removeEventListener('click', this.removeHandler);
+            this.cardElement.parentNode.removeChild(this.cardElement);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      }
     }
   }
 }
-
-

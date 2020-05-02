@@ -37,7 +37,8 @@
 
         <form class="popup__form" name="new">
           <div class="input-container">
-            <input id="add-name" type="text" name="name" class="popup__input popup__input_type_name" placeholder="Название" minlength="2" maxlength="30" required>
+            <input id="add-name" type="text" name="name" class="popup__input popup__input_type_name"
+              placeholder="Название" minlength="2" maxlength="30" required>
             <span id="error-add-name" class="error-message error-message__hidden"></span>
           </div>
           <div class="input-container">
@@ -73,6 +74,24 @@
       </div>
     </div>
 
+    <div class="popupAvatar">
+      <div class="popup__content">
+        <img src="./images/close.svg" alt="close edit" class="popup__avatar-close">
+        <h3 class="popup__title">Редактировать аватар</h3>
+        
+        <form class="popup__form" name="popupAvatar" novalidate>
+          <div class="input-container">
+            <input id="edit-avatar" type="text" name="userName" class="popup__input popup__input_type_editAvatar"
+              placeholder="Ссылка на изображение" minlength="2" maxlength="30" required>
+            <span id="error-edit-avatar" class="error-message error-message__hidden"></span>
+          </div>
+          <button id="submit" class="button popup__button"> Сохранить </button>
+        </form>
+      </div>
+    </div>
+
+
+
     <div class="popupImage">
       <div class="popup__wrap-image">
         <img class="popup__content-image">
@@ -82,8 +101,8 @@
 
   </div>
 
-  
-  
+
+
   <script src="./js/Card.js"></script>
   <script src="./js/Popup.js"></script>
   <script src="./js/PopupImage.js"></script>
@@ -92,7 +111,7 @@
   <script src="./js/FormValidator.js"></script>
   <script src="./js/Api.js"></script>
   <script src="./js/index.js"></script>
-  
+
 
 
 

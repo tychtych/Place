@@ -10,6 +10,7 @@
 @import url(./_is-opened/popup_is-opened.css);
 @import url(./popupEdit.css);
 @import url(./popupImage.css);
+@import url(./popupAvatar.css);
 @import url(./error-message/error-message.css);
 @import url(./error-message/error-message__hidden.css);
 @import url(./input-container.css);

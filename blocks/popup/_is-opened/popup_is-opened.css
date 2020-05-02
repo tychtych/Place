@@ -9,5 +9,7 @@
 .popupImage.popup_is-opened {
   display: flex;
   
-
+}
+.popupAvatar.popup_is-opened {
+  display: flex;
 }

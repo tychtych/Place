@@ -19,7 +19,7 @@ const errorMessages = {
   typeMismatch: 'Здесь должна быть ссылка'
 }
 
-const api = new Api('https://praktikum.tk/cohort10', 'b7bf284d-e98b-46e7-a116-decc877d1eec');
+const api = new Api('please request the info', 'please request the info');
 
 const container = document.querySelector('.root');
 const listContainer = container.querySelector('.places-list');
@@ -28,26 +28,29 @@ const form = document.forms.new;
 const popUpWindow = container.querySelector('.popup');
 const popUpEditWindow = container.querySelector('.popupEdit');
 const popUpImageWindow = container.querySelector('.popupImage');
+const popupAvatarWindow = container.querySelector('.popupAvatar');
 
 
 const cardPopup = new Popup(popUpWindow);
 const cardEditPopup = new Popup(popUpEditWindow)
 const popupImageInstance = new PopupImage(popUpImageWindow);
+const cardPopupAvatar = new Popup(popupAvatarWindow);
+
 
 const addButton = container.querySelector('.user-info__button');
 const editButton = container.querySelector('.user-info-edit__button');
+const avatarButton = container.querySelector('.user-info__photo');
 const closeButton = container.querySelector('.popup__close');
 const closeEditButton = container.querySelector('.popup__edit-close');
 const closeImageButton = container.querySelector('.popup__image-close');
-const imageDiv = container.querySelector('.place-card__image');
 
 const nameInput = popUpEditWindow.querySelector('.popup__input_type_Editname');
 const jobInput = popUpEditWindow.querySelector('.popup__input_type_Editlink-url');
 const userDiv = document.querySelector('.user-info');
-const userInforName = userDiv.querySelector('.user-info__name');
-const userInfoJob = userDiv.querySelector('.user-info__job');
+
 const formEdit = document.forms.popupEdit;
 
+const userId = 'a076321f76901e271ae386a7';
 
 
 closeButton.addEventListener('click', cardPopup.close.bind(cardPopup));
@@ -67,22 +70,43 @@ api.getUserInfo()
     newEditUserInfo.updateUserInfo();
   })
 
+const cardsArray = [];
+
+const customCardList = new CardList(listContainer, cardsArray);
+
+const handleDelete = (cardId) => api.deleteCard(cardId);
+
 api.getInitialCards()
   .then(cardsResponse => {
-    const inititalCardsArray = cardsResponse.map(card => new Card(card.name, card.link, popupImageInstance));
+    for (let card of cardsResponse) {
+      
+      const initCard = new Card(card.name, card.link, card.likes, card._id, card.owner._id, userId, popupImageInstance, handleDelete);
+      cardsArray.push(initCard);
+    }
+    customCardList.render();
+  })
+  
+  .catch(err => {
+    console.log(err);
+  })
 
-    const newCardList = new CardList(listContainer, inititalCardsArray);
-    newCardList.render();
+ 
 
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      api.addCard(userName.value, imageLink.value);
-      const customCard = new Card(userName.value, imageLink.value, popupImageInstance);
-      newCardList.addNewCard(customCard);
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+  api.addCard(userName.value, imageLink.value)
+    .then(response => {
+      const customCard = new Card(response.name, response.link, popupImageInstance);
+      customCardList.addNewCard(customCard);
       cardPopup.close();
       form.reset();
     })
-  })
+    .catch(err => {
+      console.log(err);
+    })
+})
+
+
 
 
 
@@ -101,11 +125,14 @@ addButton.addEventListener('click', function () {
 
 //при открытии попапа сетается юзер инфо
 editButton.addEventListener('click', function () {
-  // ???
   newEditUserInfo.updateUserInfo();
   cardEditPopup.open.bind(cardEditPopup)();
   editValidationForm.validateAllForm();
 });
+
+avatarButton.addEventListener('click', () => {
+  cardPopupAvatar.open.bind(cardPopupAvatar)();
+})
 
 //forms- submit event
 
