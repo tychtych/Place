@@ -1,16 +1,5 @@
 'use strict'
-/*
-fetch('https://praktikum.tk/cohort10/cards', {
-  headers: {
-    authorization: 'b7bf284d-e98b-46e7-a116-decc877d1eec'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    console.log(result);
-  });
 
-  */
 
 
 const errorMessages = {
@@ -19,7 +8,7 @@ const errorMessages = {
   typeMismatch: 'Здесь должна быть ссылка'
 }
 
-const api = new Api('please request the info', 'please request the info');
+const api = new Api('https://praktikum.tk/cohort10', 'b7bf284d-e98b-46e7-a116-decc877d1eec');
 
 const container = document.querySelector('.root');
 const listContainer = container.querySelector('.places-list');
@@ -79,18 +68,18 @@ const handleDelete = (cardId) => api.deleteCard(cardId);
 api.getInitialCards()
   .then(cardsResponse => {
     for (let card of cardsResponse) {
-      
+
       const initCard = new Card(card.name, card.link, card.likes, card._id, card.owner._id, userId, popupImageInstance, handleDelete);
       cardsArray.push(initCard);
     }
     customCardList.render();
   })
-  
+
   .catch(err => {
     console.log(err);
   })
 
- 
+
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();

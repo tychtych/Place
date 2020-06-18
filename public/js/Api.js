@@ -4,8 +4,6 @@ class Api {
     this.token = token;
   }
 
-  
-
   editUserInfo(updatedName, updatedAbout) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
@@ -98,7 +96,7 @@ class Api {
     })
     .then(res => {
       if(res.ok) {
-        
+
         return res.json();
       }
       return Promise.reject(`Error: ${res.status}`)
@@ -109,7 +107,7 @@ class Api {
   }
 
   likeCard(cardId) {
-    
+
     return fetch(`${this.baseUrl}/cards/like/` + cardId , {
       method: 'PUT',
       headers: {
@@ -119,7 +117,7 @@ class Api {
     })
     .then(res => {
       if(res.ok) {
-        
+
         return res.json();
       }
       return Promise.reject(`Error: ${res.status}`)
@@ -139,7 +137,7 @@ class Api {
     })
     .then(res => {
       if(res.ok) {
-        
+
         return res.json();
       }
       return Promise.reject(`Error: ${res.status}`)
@@ -170,5 +168,5 @@ class Api {
       })
     })
   }
-  
+
 }
