@@ -4,6 +4,7 @@
   "description": "creating a server for the Place project",
   "main": "app.js",
   "scripts": {
+
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
@@ -23,7 +24,9 @@
     "eslint-plugin-import": "^2.21.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "express": "^4.17.1"
