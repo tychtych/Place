@@ -13,13 +13,14 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const userId = req.params.id;
-  if (!userId) {
-    res.status(404).send({ message: 'Нет пользователя с таким id' });
-    return;
-  }
   // eslint-disable-next-line no-underscore-dangle
-  res.send(parsedUsersData.find((user) => user._id === req.params.id));
+  if (!parsedUsersData.find((user) => user._id === req.params.id)) {
+    res.status(404).send({ message: 'Нет пользователя с таким id' });
+  }
+  if (Array.isArray(parsedUsersData)) {
+    // eslint-disable-next-line no-underscore-dangle
+    res.send(parsedUsersData.find((user) => user._id === req.params.id));
+  }
 });
 
 module.exports = router;
