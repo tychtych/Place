@@ -1,0 +1,42 @@
+{
+  "name": "place",
+  "version": "1.0.0",
+  "description": "creating a server for the Place project",
+  "main": "app.js",
+  "scripts": {
+
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tychtych/Place.git"
+  },
+  "author": "Anastasiia Tychkova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tychtych/Place/issues"
+  },
+  "homepage": "https://github.com/tychtych/Place#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "nodemon": "^2.0.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
+  }
+}
