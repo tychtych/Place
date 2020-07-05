@@ -19,7 +19,10 @@ module.exports.createNewCard = (req, res) => {
     .catch((error) => {
       if (error.name === 'ValidationError') {
         return res.status(400)
-          .send({ message: 'Please check entered data' });
+          .send({ message: error.message });
+      }
+      if (error.name === 'CastError') {
+        return res.status(400).send({ message: "Seems like this card doesn't exist" });
       }
       return res.status(500)
         .send({ message: "Sorry, it's not you, it's us" });
@@ -33,7 +36,7 @@ module.exports.deleteCard = (req, res) => {
         res.status(404)
           .send({ message: 'Card not found' });
       } else {
-        res.send({ message: 'Card is deleted!' });
+        res.send({ data: card });
       }
     })
     .catch(() => res.status(500).send({ message: "Sorry, it's not you, it's us" }));
