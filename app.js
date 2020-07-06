@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-const path = require('path');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 
@@ -27,8 +26,6 @@ app.use((req, res, next) => {
 
 app.use('/users', users);
 app.use('/cards', cards);
-
-app.use(express.static(path.join(__dirname, '/public')));
 
 // TODO please be consistent with language for error messsages
 app.use((req, res) => {

@@ -2,7 +2,6 @@ const Card = require('../models/card');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .populate('card')
     .then((cards) => res.send({ data: cards }))
     .catch(() => res.status(500).send({ message: "Sorry, it's not you, it's us" }));
 };
@@ -39,5 +38,10 @@ module.exports.deleteCard = (req, res) => {
         res.send({ data: card });
       }
     })
-    .catch(() => res.status(500).send({ message: "Sorry, it's not you, it's us" }));
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        return res.status(400).send({ message: "Seems like this card doesn't exist" });
+      }
+      return res.status(500).send({ message: "Sorry, it's not you, it's us" });
+    });
 };
