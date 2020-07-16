@@ -34,6 +34,9 @@ module.exports.deleteCard = (req, res) => {
       if (!card) {
         res.status(404)
           .send({ message: 'Card not found' });
+        // eslint-disable-next-line no-empty
+      } else if (card.owner._id.toString() === req.user._id) {
+        res.status(401).send({ message: 'Not authorized action' });
       } else {
         res.send({ data: card });
       }
