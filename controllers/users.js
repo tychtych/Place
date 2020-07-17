@@ -42,7 +42,7 @@ module.exports.createNewUser = (req, res) => {
       email,
       password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ data: { name: user.name, about: user.about, email: user.email } }))
     .catch((error) => {
       if (error.name === 'ValidationError') {
         return res.status(400).send({ message: error.message });
@@ -66,7 +66,7 @@ module.exports.login = (req, res) => {
           httpOnly: true,
           sameSite: true,
         })
-        .send({ message: 'Success!' });
+        .send({ token });
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
