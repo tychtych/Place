@@ -29,16 +29,13 @@ module.exports.createNewCard = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (!card) {
-        res.status(404)
-          .send({ message: 'Card not found' });
-        // eslint-disable-next-line no-empty
-      } else if (card.owner._id.toString() === req.user._id) {
+      if (card.owner.toString() !== req.user._id) {
         res.status(401).send({ message: 'Not authorized action' });
       } else {
-        res.send({ data: card });
+        Card.deleteOne(card)
+          .then(() => res.send({ message: 'Card is deleted!' }));
       }
     })
     .catch((error) => {
