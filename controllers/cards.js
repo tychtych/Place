@@ -30,6 +30,7 @@ module.exports.createNewCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.cardId)
+    .orFail(() => new Error('Card is not found'))
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
         res.status(401).send({ message: 'Not authorized action' });
@@ -42,6 +43,6 @@ module.exports.deleteCard = (req, res) => {
       if (error.name === 'CastError') {
         return res.status(400).send({ message: "Seems like this card doesn't exist" });
       }
-      return res.status(500).send({ message: "Sorry, it's not you, it's us" });
+      return res.status(404).send({ message: error.message });
     });
 };
