@@ -1,12 +1,15 @@
 const Card = require('../models/card');
 
-module.exports.getCards = (req, res) => {
+const NotFoundError = require('../errors/notFound');
+const NotAuthorized = require('../errors/notAuthor');
+
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(() => res.status(500).send({ message: "Sorry, it's not you, it's us" }));
+    .catch(next);
 };
 
-module.exports.createNewCard = (req, res) => {
+module.exports.createNewCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({
@@ -15,34 +18,19 @@ module.exports.createNewCard = (req, res) => {
     owner: req.user._id,
   })
     .then((card) => res.send({ data: card }))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        return res.status(400)
-          .send({ message: error.message });
-      }
-      if (error.name === 'CastError') {
-        return res.status(400).send({ message: "Seems like this card doesn't exist" });
-      }
-      return res.status(500)
-        .send({ message: "Sorry, it's not you, it's us" });
-    });
+    .catch(next);
 };
 
-module.exports.deleteCard = (req, res) => {
+module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
-    .orFail(() => new Error('Card is not found'))
+    .orFail(new NotFoundError('Card not found'))
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        res.status(401).send({ message: 'Not authorized action' });
+        throw new NotAuthorized('You can delete only your card');
       } else {
         Card.deleteOne(card)
           .then(() => res.send({ message: 'Card is deleted!' }));
       }
     })
-    .catch((error) => {
-      if (error.name === 'CastError') {
-        return res.status(400).send({ message: "Seems like this card doesn't exist" });
-      }
-      return res.status(404).send({ message: error.message });
-    });
+    .catch(next);
 };
