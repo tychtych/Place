@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const { Joi, celebrate, errors } = require('celebrate');
+const validator = require('validator');
 
 const app = express();
 const users = require('./routes/users');
@@ -12,6 +13,13 @@ const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const serverErr = require('./middlewares/serverErr');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const urlValidate = (link) => {
+  if (!validator.isURL(link)) {
+    throw new Error('Invalid Link');
+  }
+  return link;
+};
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -43,6 +51,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
+    avatar: Joi.string().required().custom(urlValidate),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(6),
   }),

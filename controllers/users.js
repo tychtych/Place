@@ -59,5 +59,5 @@ module.exports.login = (req, res, next) => {
         })
         .send({ token });
     })
-    .catch((err) => next(new NotAuthorized(err.message)));
+    .catch(() => next(new NotAuthorized('Please check email or password')));
 };
