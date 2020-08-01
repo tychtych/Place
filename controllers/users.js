@@ -4,8 +4,9 @@ const User = require('../models/user');
 
 const NotFoundError = require('../errors/notFound');
 const NotAuthorized = require('../errors/notAuthor');
+const ConflictErr = require('../errors/conflictErr');
 
-const { JWT_KEY } = require('../secretpath/secret');
+const { SecretKey } = require('../secretpath/secret');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -39,6 +40,11 @@ module.exports.createNewUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => res.send({ data: { name: user.name, about: user.about, email: user.email } }))
+    .catch((err) => {
+      if (err.errors.email.kind === 'unique') {
+        throw new ConflictErr('The user with this email already exists');
+      }
+    })
     .catch(next);
 };
 
@@ -48,7 +54,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_KEY,
+        SecretKey,
         { expiresIn: '7d' },
       );
       res

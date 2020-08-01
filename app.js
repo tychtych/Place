@@ -11,7 +11,7 @@ const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const serverErr = require('./middlewares/serverErr');
+const { NotFoundError } = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const urlValidate = (link) => {
@@ -61,11 +61,22 @@ app.use(auth);
 
 app.use('/users', users);
 app.use('/cards', cards);
-app.use('/', serverErr);
+
+app.use((req, res, next) => {
+  next(new NotFoundError('Requested resource not found'));
+});
 
 app.use(errorLogger); // подключаем логгер ошибок
+
 // обработчик ошибок celebrate
 app.use(errors());
+
+app.use((err, req, res) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'Internal server error' : message,
+  });
+});
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
