@@ -71,7 +71,8 @@ app.use(errorLogger); // подключаем логгер ошибок
 // обработчик ошибок celebrate
 app.use(errors());
 
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
     message: statusCode === 500 ? 'Internal server error' : message,
