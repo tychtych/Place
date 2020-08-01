@@ -1,7 +1,7 @@
 const Card = require('../models/card');
 
 const NotFoundError = require('../errors/notFound');
-const NotAuthorized = require('../errors/notAuthor');
+const ForbiddErr = require('../errors/forbiddErr');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -26,7 +26,7 @@ module.exports.deleteCard = (req, res, next) => {
     .orFail(new NotFoundError('Card not found'))
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        throw new NotAuthorized('You can delete only your card');
+        throw new ForbiddErr('You can delete only your card');
       } else {
         Card.deleteOne(card)
           .then(() => res.send({ message: 'Card is deleted!' }));

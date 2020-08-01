@@ -11,7 +11,6 @@ const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createNewUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const { NotFoundError } = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const urlValidate = (link) => {
@@ -62,8 +61,9 @@ app.use(auth);
 app.use('/users', users);
 app.use('/cards', cards);
 
-app.use((req, res, next) => {
-  next(new NotFoundError('Requested resource not found'));
+app.all('*', (req, res, next) => {
+  res.status(404).send({ message: 'Requested resource not found' });
+  next();
 });
 
 app.use(errorLogger); // подключаем логгер ошибок

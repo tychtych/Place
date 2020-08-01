@@ -41,7 +41,7 @@ module.exports.createNewUser = (req, res, next) => {
     }))
     .then((user) => res.send({ data: { name: user.name, about: user.about, email: user.email } }))
     .catch((err) => {
-      if (err.errors.email.kind === 'unique') {
+      if (err.errors.email && err.errors.email.kind === 'unique') {
         throw new ConflictErr('The user with this email already exists');
       }
     })
