@@ -10,6 +10,7 @@ const app = express();
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { login, createNewUser } = require('./controllers/users');
+const NotFoundError = require('./errors/notFound');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -61,9 +62,9 @@ app.use(auth);
 app.use('/users', users);
 app.use('/cards', cards);
 
-app.all('*', (req, res, next) => {
-  res.status(404).send({ message: 'Requested resource not found' });
-  next();
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res) => {
+  throw new NotFoundError('Requested resource not found');
 });
 
 app.use(errorLogger); // подключаем логгер ошибок
