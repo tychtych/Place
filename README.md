@@ -15,18 +15,18 @@ Celebrate,
 Winston
 
 
-POST /signup - sign up a new user
+# POST /signup  - sign up a new user
 
-POST /signin - sign in and get JWT
+# POST /signin - sign in and get JWT
 
-GET /users - returns all users
+# GET /users - returns all users
 
-GET /users/id - gets user by ID
+# GET /users/id - gets user by ID
 
-POST /users - creates a new user
+# POST /users - creates a new user
 
-GET /cards - gets all cards
+# GET /cards - gets all cards
 
-POST /cards - creates a new card
+# POST /cards - creates a new card
 
-DELETE /cards/id - deletes a card by id
+# DELETE /cards/id - deletes a card by id
