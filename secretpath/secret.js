@@ -1,1 +1,3 @@
-module.exports.JWT_KEY = '07e458156b4c8b1dfbb0e8a59cb595faf5bbbc95a28a10a5b86d6ffa8b95fe56';
+const { JWT_SECRET, NODE_ENV } = process.env;
+
+module.exports.SecretKey = NODE_ENV !== 'production' ? 'some-dev-secret' : JWT_SECRET;

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const uniqueValidator = require('mongoose-unique-validator');
 const userValidator = require('validator');
 
 const userSchema = new mongoose.Schema({
@@ -56,5 +57,5 @@ userSchema.statics.findUserByCredentials = function (email, password) {
         });
     });
 };
-
+userSchema.plugin(uniqueValidator, { message: 'This account already exists with the entered email.' });
 module.exports = mongoose.model('user', userSchema);

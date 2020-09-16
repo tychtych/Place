@@ -2,35 +2,32 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const { JWT_KEY } = require('../secretpath/secret');
+const NotFoundError = require('../errors/notFound');
+const NotAuthorized = require('../errors/notAuthor');
+const ConflictErr = require('../errors/conflictErr');
 
-module.exports.getUsers = (req, res) => {
+const { SecretKey } = require('../secretpath/secret');
+
+module.exports.getUsers = (req, res, next) => {
   User.find({})
+    .orFail(new NotFoundError('There are no users'))
     .then((users) => res.send({ data: users }))
-    .catch(() => res.status(500).send({ message: "Sorry, it's not you, it's us" }));
+    .catch(next);
 };
 
-module.exports.getUserById = (req, res) => {
+module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.id)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'User not found' });
+        throw new NotFoundError('User is not found');
       } else {
         res.send({ data: user });
       }
     })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        return res.status(400).send({ message: error.message });
-      }
-      if (error.name === 'CastError') {
-        return res.status(400).send({ message: "Seems like this user doesn't exist" });
-      }
-      return res.status(500).send({ message: "Sorry, it's not you, it's us" });
-    });
+    .catch(next);
 };
 
-module.exports.createNewUser = (req, res) => {
+module.exports.createNewUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
@@ -43,21 +40,21 @@ module.exports.createNewUser = (req, res) => {
       password: hash,
     }))
     .then((user) => res.send({ data: { name: user.name, about: user.about, email: user.email } }))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        return res.status(400).send({ message: error.message });
+    .catch((err) => {
+      if (err.errors.email && err.errors.email.kind === 'unique') {
+        throw new ConflictErr('The user with this email already exists');
       }
-      return res.status(500).send({ message: error.message });
-    });
+    })
+    .catch(next);
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_KEY,
+        SecretKey,
         { expiresIn: '7d' },
       );
       res
@@ -68,7 +65,5 @@ module.exports.login = (req, res) => {
         })
         .send({ token });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
-    });
+    .catch(() => next(new NotAuthorized('Please check email or password')));
 };
